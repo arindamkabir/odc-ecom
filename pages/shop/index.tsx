@@ -1,6 +1,9 @@
 import AppLayout from '@/components/layout/AppLayout'
 import Filters from '@/components/shop/Filters';
+import MobileFilters from '@/components/shop/MobileFilters';
 import SortByMenu from '@/components/shop/SortByMenu';
+import useStore from '@/store/store';
+import { FunnelIcon } from '@heroicons/react/24/solid';
 import React from 'react'
 
 const products = [
@@ -26,6 +29,8 @@ const products = [
 ]
 
 const ShopPage = () => {
+    const openMobileFilters = useStore(state => state.openMobileFilters);
+
     return (
         <AppLayout>
             <div className="relative z-10 flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
@@ -38,14 +43,14 @@ const ShopPage = () => {
                 <span className="sr-only">View grid</span>
                 <GridIco className="w-5 h-5" aria-hidden="true" />
               </button> */}
-                    {/* <button
+                    <button
                         type="button"
                         className="p-2 -m-2 ml-4 sm:ml-6 text-gray-400 hover:text-gray-500 lg:hidden"
-                        onClick={() => setMobileFiltersOpen(true)}
+                        onClick={() => openMobileFilters(true)}
                     >
                         <span className="sr-only">Filters</span>
                         <FunnelIcon className="w-5 h-5" aria-hidden="true" />
-                    </button> */}
+                    </button>
                 </div>
             </div>
 
@@ -77,6 +82,8 @@ const ShopPage = () => {
                     </div>
                 </div>
             </section>
+
+            <MobileFilters />
         </AppLayout>
     )
 }

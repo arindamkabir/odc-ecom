@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Transition } from '@headlessui/react'
 import { MinusSmallIcon, PlusSmallIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import useStore from '@/store/store'
 
 const subCategories = [
     { name: 'Totes', href: '#' },
@@ -49,10 +50,12 @@ const filters = [
 
 
 const MobileFilters = () => {
-    const [mobileFiltersOpen, setMobileFiltersOpen] = useState<boolean>(false);
+    const mobileFiltersOpen = useStore(state => state.mobileFiltersOpen);
+    const openMobileFilters = useStore(state => state.openMobileFilters);
+
     return (
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
-            <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={setMobileFiltersOpen}>
+            <Dialog as="div" className="fixed inset-0 flex z-40 lg:hidden" onClose={openMobileFilters}>
                 <Transition.Child
                     as={Fragment}
                     enter="transition-opacity ease-linear duration-300"
@@ -80,7 +83,7 @@ const MobileFilters = () => {
                             <button
                                 type="button"
                                 className="-mr-2 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400"
-                                onClick={() => setMobileFiltersOpen(false)}
+                                onClick={() => openMobileFilters(false)}
                             >
                                 <span className="sr-only">Close menu</span>
                                 <XMarkIcon className="h-6 w-6" aria-hidden="true" />
