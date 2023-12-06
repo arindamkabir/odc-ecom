@@ -1,6 +1,16 @@
+import { ProductListRequest } from "@/hooks/queries/useGetProductList";
+import { CartProduct, Product, Stock } from "./Product";
+
 export type ShopState = {
+    cart: CartProduct[],
+    cartOpen: boolean,
     mobileFiltersOpen: boolean,
-    openMobileFilters: (val?: boolean) => void
+    addToCart: (product: Product, stock: Stock) => void,
+    removeFromCart: (id: Product["id"], stockId: Stock["id"], removeAll?: boolean) => void,
+    setCartOpen: (val: boolean) => void,
+    productListQueryParams: ProductListRequest,
+    openMobileFilters: (val?: boolean) => void,
+    setProductListQueryParams: (params: ProductListRequest) => void,
 };
 
 
