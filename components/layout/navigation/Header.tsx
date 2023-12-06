@@ -2,6 +2,10 @@ import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import clsx from "clsx";
+import Logo from "@/public/logo-white.svg";
+import Image from 'next/image';
+import useStore from '@/store/store';
+
 const navigation = {
     categories: [
         {
@@ -127,6 +131,7 @@ const navigation = {
 
 const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+    const setCartOpen = useStore(state => state.setCartOpen);
 
     return (
         <div>
@@ -175,7 +180,7 @@ const Header = () => {
                                                 key={category.name}
                                                 className={({ selected }) =>
                                                     clsx(
-                                                        selected ? 'text-indigo-600 border-indigo-600' : 'text-gray-900 border-transparent',
+                                                        selected ? 'text-black border-black' : 'text-gray-900 border-transparent',
                                                         'flex-1 whitespace-nowrap py-4 px-1 border-b-2 text-base font-medium'
                                                     )
                                                 }
@@ -268,17 +273,17 @@ const Header = () => {
                 </Dialog>
             </Transition.Root>
 
-            <header className="relative bg-white">
-                <p className="bg-indigo-600 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
+            <header className="relative ">
+                {/* <p className="bg-black h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
                     Get free delivery on orders over $100
-                </p>
+                </p> */}
 
-                <nav aria-label="Top" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav className="">
                     <div className="border-b border-gray-200">
-                        <div className="h-16 flex items-center">
+                        <div className="h-[6rem] flex items-center bg-black px-4 sm:px-6 lg:px-8 ">
                             <button
                                 type="button"
-                                className="bg-white p-2 rounded-md text-gray-400 lg:hidden"
+                                className=" p-2 rounded-md text-white lg:hidden"
                                 onClick={() => setMobileMenuOpen(true)}
                             >
                                 <span className="sr-only">Open menu</span>
@@ -288,17 +293,12 @@ const Header = () => {
                             {/* Logo */}
                             <div className="ml-4 flex lg:ml-0">
                                 <a href="#">
-                                    <span className="sr-only">Workflow</span>
-                                    <img
-                                        className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
-                                        alt=""
-                                    />
+                                    <img src="/logo-white.png" className='h-[5.75rem] w-auto' alt="" />
                                 </a>
                             </div>
 
                             {/* Flyout menus */}
-                            <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
+                            <Popover.Group className="hidden lg:ml-16 lg:block lg:self-stretch">
                                 <div className="h-full flex space-x-8">
                                     {navigation.categories.map((category) => (
                                         <Popover key={category.name} className="flex">
@@ -308,8 +308,8 @@ const Header = () => {
                                                         <Popover.Button
                                                             className={clsx(
                                                                 open
-                                                                    ? 'border-indigo-600 text-indigo-600'
-                                                                    : 'border-transparent text-gray-700 hover:text-gray-800',
+                                                                    ? 'border-black text-black'
+                                                                    : 'border-transparent text-white hover:text-gray-100',
                                                                 'relative z-10 flex items-center transition-colors ease-out duration-200 text-sm font-medium border-b-2 -mb-px pt-px'
                                                             )}
                                                         >
@@ -366,7 +366,7 @@ const Header = () => {
                                                                                     >
                                                                                         {section.items.map((item) => (
                                                                                             <li key={item.name} className="flex">
-                                                                                                <a href={item.href} className="hover:text-gray-800">
+                                                                                                <a href={item.href} className="hover:text-gray-100">
                                                                                                     {item.name}
                                                                                                 </a>
                                                                                             </li>
@@ -389,7 +389,7 @@ const Header = () => {
                                         <a
                                             key={page.name}
                                             href={page.href}
-                                            className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                                            className="flex items-center text-sm font-medium text-white hover:text-gray-100"
                                         >
                                             {page.name}
                                         </a>
@@ -398,46 +398,35 @@ const Header = () => {
                             </Popover.Group>
 
                             <div className="ml-auto flex items-center">
-                                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                                    <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                {/* <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                                    <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
                                         Sign in
                                     </a>
                                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                                    <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                    <a href="#" className="text-sm font-medium text-white hover:text-gray-100">
                                         Create account
                                     </a>
-                                </div>
-
-                                <div className="hidden lg:ml-8 lg:flex">
-                                    <a href="#" className="text-gray-700 hover:text-gray-800 flex items-center">
-                                        <img
-                                            src="https://tailwindui.com/img/flags/flag-canada.svg"
-                                            alt=""
-                                            className="w-5 h-auto block flex-shrink-0"
-                                        />
-                                        <span className="ml-3 block text-sm font-medium">CAD</span>
-                                        <span className="sr-only">, change currency</span>
-                                    </a>
-                                </div>
+                                </div> */}
 
                                 {/* Search */}
                                 <div className="flex lg:ml-6">
                                     <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                                        <span className="sr-only">Search</span>
                                         <MagnifyingGlassIcon className="w-6 h-6" aria-hidden="true" />
                                     </a>
                                 </div>
 
                                 {/* Cart */}
                                 <div className="ml-4 flow-root lg:ml-6">
-                                    <a href="#" className="group -m-2 p-2 flex items-center">
+                                    <button
+                                        className="group -m-2 p-2 flex items-center"
+                                        onClick={() => setCartOpen(true)}
+                                    >
                                         <ShoppingBagIcon
                                             className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true"
                                         />
-                                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                                        <span className="sr-only">items in cart, view bag</span>
-                                    </a>
+                                        <span className="ml-2 text-sm font-medium text-white group-hover:text-gray-100">0</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
