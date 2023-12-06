@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from 'next/app';
-import { Poppins } from 'next/font/google';
+import { Merriweather_Sans } from 'next/font/google';
 import { CloseButtonProps, ToastContainer } from "react-toastify"
 import { XMarkIcon } from '@heroicons/react/24/solid';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -9,13 +9,13 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
 
 const contextClass = {
-  success: "bg-primary",
-  error: "bg-error",
-  info: "bg-primary",
-  warning: "bg-primary",
-  default: "bg-primary",
-  dark: "bg-primary",
-  light: "bg-primary"
+  success: "bg-black",
+  error: "bg-black",
+  info: "bg-black",
+  warning: "bg-black",
+  default: "bg-black",
+  dark: "bg-black",
+  light: "bg-black"
 };
 
 const CloseButton = ({ closeToast }: CloseButtonProps) => (
@@ -28,7 +28,7 @@ const CloseButton = ({ closeToast }: CloseButtonProps) => (
   </span>
 );
 
-const poppins = Poppins({ subsets: ['latin'], weight: ['200', '400', '500', '600', '700'], variable: '--font-poppins' });
+const merriweather = Merriweather_Sans({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-merriweather' });
 
 const CustomApp = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient({
@@ -39,15 +39,15 @@ const CustomApp = ({ Component, pageProps }: AppProps) => {
     <>
       <style jsx global>{`
         html {
-          font-family: ${poppins.style.fontFamily};
+          font-family: ${merriweather.style.fontFamily};
         }
       `}</style>
       <ToastContainer
         toastClassName={context =>
-          `${contextClass[context?.type || "default"]} text-white relative flex p-1 min-h-10 rounded-md justify-between items-center overflow-hidden cursor-pointer my-3 w-full`
+          `${contextClass[context?.type || "default"]} text-white relative flex p-1 justify-between items-center overflow-hidden cursor-pointer my-3 w-full`
         }
         className={"min-w-[4rem] !w-auto max-w-[90vw]"}
-        bodyClassName={() => "w-full text-sm font-medium block p-5"}
+        bodyClassName={() => "text-sm font-medium block px-5 py-3"}
         position="bottom-center"
         autoClose={5000}
         hideProgressBar
@@ -56,7 +56,7 @@ const CustomApp = ({ Component, pageProps }: AppProps) => {
         icon={false}
       />
       <QueryClientProvider client={queryClient}>
-        <main className={`${poppins.className} min-h-screen`} data-theme="dark">
+        <main className={`${merriweather.className} min-h-screen`} data-theme="dark">
           <Component {...pageProps} />
         </main>
         <ReactQueryDevtools />
