@@ -11,6 +11,7 @@ import axios from '@/lib/axios'
 import { useRouter } from 'next/router'
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import useStore from '@/store/store'
+import ProductCard from '@/components/shop/ProductCard'
 
 const images = [
     {
@@ -135,7 +136,7 @@ export default function ProductPage({ product, relatedProducts, availableColors,
             };
             return {
                 ...stock,
-                cartQuantity: cartItem.quantity
+                cartQuantity: cartItem.cartQuantity
             }
         }
         if (product.has_colors && !product.has_sizes && selectedColor) {
@@ -148,7 +149,7 @@ export default function ProductPage({ product, relatedProducts, availableColors,
             };
             return {
                 ...stock,
-                cartQuantity: cartItem.quantity
+                cartQuantity: cartItem.cartQuantity
             }
         }
         if (!product.has_colors && product.has_sizes && selectedSize) {
@@ -161,7 +162,7 @@ export default function ProductPage({ product, relatedProducts, availableColors,
             };
             return {
                 ...stock,
-                cartQuantity: cartItem.quantity
+                cartQuantity: cartItem.cartQuantity
             }
         }
         if (!product.has_colors && !product.has_colors) {
@@ -174,7 +175,7 @@ export default function ProductPage({ product, relatedProducts, availableColors,
             };
             return {
                 ...stock,
-                cartQuantity: cartItem.quantity
+                cartQuantity: cartItem.cartQuantity
             }
         }
         else return undefined;
@@ -194,11 +195,10 @@ export default function ProductPage({ product, relatedProducts, availableColors,
                                 {images.map((image) => (
                                     <Tab
                                         key={image.id}
-                                        className="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-black cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
+                                        className="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-black cursor-pointer hover:bg-gray-50 focus:outline-none"
                                     >
                                         {({ selected }) => (
                                             <>
-                                                <span className="sr-only">{image.name}</span>
                                                 <span className="absolute inset-0 rounded-md overflow-hidden">
                                                     <img src={image.src} alt="" className="w-full h-full object-center object-cover" />
                                                 </span>
@@ -397,36 +397,7 @@ export default function ProductPage({ product, relatedProducts, availableColors,
 
                     <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                         {relatedProducts.map((product) => (
-                            <div key={product.id}>
-                                <div className="relative">
-                                    <div className="relative w-full h-72 rounded-lg overflow-hidden">
-                                        <img
-                                            src={product.primary_image.full_url}
-                                            alt={product.name}
-                                            className="w-full h-full object-center object-cover"
-                                        />
-                                    </div>
-                                    <div className="relative mt-4">
-                                        <h3 className="text-sm font-medium text-black">{product.name}</h3>
-                                        {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
-                                    </div>
-                                    <div className="absolute top-0 inset-x-0 h-72 rounded-lg p-4 flex items-end justify-end overflow-hidden">
-                                        <div
-                                            aria-hidden="true"
-                                            className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
-                                        />
-                                        <p className="relative text-lg font-semibold text-white">{product.price}</p>
-                                    </div>
-                                </div>
-                                <div className="mt-6">
-                                    <button
-                                        className="relative flex bg-gray-100 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-black hover:bg-gray-200 disabled:bg-gray-600 uppercase"
-                                        disabled={(!selectedStock || selectedStock.cartQuantity >= selectedStock.quantity)}
-                                    >
-                                        {!selectedStock ? 'Select an option' : (selectedStock.cartQuantity > selectedStock.quantity ? 'Add to cart' : 'Out of stock')}
-                                    </button>
-                                </div>
-                            </div>
+                            <ProductCard key={`related-products-${product.slug}`} product={product} />
                         ))}
                     </div>
                 </section>
