@@ -1,5 +1,6 @@
 import { CartProduct } from '@/types/Product'
 import React from 'react'
+import ProductQtyInput from '../ProductQtyInput'
 
 type CartDrawerProductProps = {
     product: CartProduct
@@ -18,7 +19,7 @@ const CartDrawerProduct = ({ product }: CartDrawerProductProps) => {
 
             <div className="ml-4 flex flex-1 flex-col">
                 <div>
-                    <div className="flex justify-between text-sm font-medium text-gray-900">
+                    <div className="flex justify-between text-sm font-semibold text-gray-900">
                         <h3>
                             {product.name}
                         </h3>
@@ -27,9 +28,9 @@ const CartDrawerProduct = ({ product }: CartDrawerProductProps) => {
                     {
                         (product.stock.color)
                             ?
-                            <div className="mt-1 text-sm text-black flex items-center space-x-2">
-                                <p>Color : <span className='font-medium capitalize'>{product.stock.color.name}</span></p>
-                                <div style={{ height: '16px', width: '16px', backgroundColor: product.stock.color.hex_code, borderRadius: 9999 }}></div>
+                            <div className="mt-1 text-sm text-gray-500 flex items-center space-x-2">
+                                <span className='capitalize'>{product.stock.color.name}</span>
+                                {/* <div style={{ height: '16px', width: '16px', backgroundColor: product.stock.color.hex_code, borderRadius: 9999 }}></div> */}
                             </div>
                             :
                             null
@@ -37,15 +38,15 @@ const CartDrawerProduct = ({ product }: CartDrawerProductProps) => {
                     {
                         (product.stock.size)
                             ?
-                            <div className="mt-1 text-sm text-black">
-                                Size : <span className='font-medium uppercase'>{product.stock.size.name}</span>
+                            <div className="mt-1 text-sm text-gray-500">
+                                <span className='uppercase'>{product.stock.size.name}</span>
                             </div>
                             :
                             null
                     }
                 </div>
                 <div className="flex flex-1 items-end justify-between text-sm">
-                    <p className="text-black">Quantity: {product.quantity}</p>
+                    <div className="text-gray-500 flex items-center space-x-2"><span>Quantity:</span><ProductQtyInput product={product} /></div>
 
                     <div className="flex">
                         <button

@@ -22,10 +22,10 @@ const createShopState: StateCreator<
         const exists = get().cart.some(item => item.id === product.id && item.stock.id === stock.id);
         if (exists) {
             let newCart = get().cart.map(item => {
-                if (item.id === product.id && item.stock.id === stock.id)
+                if (item.id === product.id && item.stock.id === stock.id && item.cartQuantity < item.stock.quantity)
                     return {
                         ...item,
-                        quantity: item.quantity + 1
+                        cartQuantity: item.cartQuantity + 1
                     };
                 else return item;
             })
@@ -34,42 +34,36 @@ const createShopState: StateCreator<
         }
         else {
             let { stocks, ...cartProduct } = product
-            set(state => ({
-                cart: [...state.cart, {
-                    ...cartProduct,
-                    stock: stock,
-                    quantity: 1
-                }]
-            }));
-            toast.success("Product added to cart.");
+            if (stock.quantity > 0) {
+                set(state => ({
+                    cart: [...state.cart, {
+                        ...cartProduct,
+                        stock: stock,
+                        cartQuantity: 1
+                    }]
+                }));
+                toast.success("Product added to cart.");
+            }
         }
     },
-    removeFromCart: (productId, stockId, removeAll) => {
+    removeFromCart: (productId, stockId) => {
         const item = get().cart.find(item => item.id === productId && item.stock.id === stockId);
-        if (item) {
-            if (!removeAll) {
-                if (item.quantity === 1)
-                    set(state => ({
-                        cart: state.cart.filter(item => !(item.id === productId && item.stock.id === stockId))
-                    }));
-                else if (item.quantity > 1)
-                    set(state => ({
-                        cart: state.cart.map(item => {
-                            if (item.id === productId && item.stock.id === stockId)
-                                return {
-                                    ...item,
-                                    quantity: item.quantity + 1
-                                }
-                            else return item;
-                        })
-                    }));
-            }
-            else {
-                set(state => ({
-                    cart: state.cart.filter(item => !(item.id === productId && item.stock.id === stockId))
-                }));
-            }
-        }
+        if (item)
+            set(state => ({
+                cart: state.cart.filter(item => !(item.id === productId && item.stock.id === stockId))
+            }));
+    },
+    updateCartProduct: (productId, stockId, quantity) => {
+        set(state => ({
+            cart: state.cart.map((item) => {
+                if (item.id === productId && item.stock.id === stockId)
+                    return {
+                        ...item,
+                        cartQuantity: quantity
+                    }
+                else return item;
+            })
+        }));
     },
     openMobileFilters: (val?: boolean) => {
         if (val !== undefined) {

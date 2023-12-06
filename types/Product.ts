@@ -28,6 +28,8 @@ export interface Product {
     is_featured: boolean;
     has_colors: boolean;
     has_sizes: boolean;
+    sizes_count: number,
+    colors_count: number,
     created_at: string;
     updated_at: string;
     stocks: Stock[]; // Adjust type as per the stocks structure
@@ -45,7 +47,8 @@ export interface Product {
     };
 }
 
+
 export type CartProduct = Omit<Product, 'stocks'> & {
-    quantity: number,
+    cartQuantity: number,
     stock: Stock
 }

@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Logo from "@/public/logo-white.svg";
 import Image from 'next/image';
 import useStore from '@/store/store';
+import Link from 'next/link';
 
 const navigation = {
     categories: [
@@ -292,9 +293,9 @@ const Header = () => {
 
                             {/* Logo */}
                             <div className="ml-4 flex lg:ml-0">
-                                <a href="#">
+                                <Link href="/">
                                     <img src="/logo-white.png" className='h-[5.75rem] w-auto' alt="" />
-                                </a>
+                                </Link>
                             </div>
 
                             {/* Flyout menus */}

@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import useStore from '@/store/store'
@@ -34,6 +34,8 @@ export default function CartDrawer() {
     const cart = useStore(state => state.cart);
     const cartOpen = useStore(state => state.cartOpen);
     const setCartOpen = useStore(state => state.setCartOpen);
+
+    const subtotal = useMemo(() => cart.reduce((acc, currentValue) => acc + (Number(currentValue.stock.price) * currentValue.cartQuantity), 0), [cart]);
 
     return (
         <Transition.Root show={cartOpen} as={Fragment}>
@@ -96,7 +98,7 @@ export default function CartDrawer() {
                                         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                                             <div className="flex justify-between text-base font-medium text-gray-900">
                                                 <p>Subtotal</p>
-                                                <p>$262.00</p>
+                                                <p>৳ {subtotal}</p>
                                             </div>
                                             {/* <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p> */}
                                             <div className="mt-6">
