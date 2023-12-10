@@ -9,10 +9,10 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 export type ProductListRequest = {
     search?: string,
     page: number,
-    perPage?: number,
+    perPage: number,
     categories?: Category["id"][],
-    sizes?: Size["id"][],
-    colors?: Color["id"][],
+    sizes: Size["id"][],
+    colors: Color["id"][],
 }
 
 export type ProductListResponse = PaginatedResponse<Product>;

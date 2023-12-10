@@ -11,7 +11,7 @@ import React from 'react'
 const ShopPage = () => {
     const openMobileFilters = useStore(state => state.openMobileFilters);
     const productListQueryParams = useStore(state => state.productListQueryParams);
-    const { data: productListResponse, isLoading } = useGetProductList(productListQueryParams);
+    const { data: productListResponse, isPending } = useGetProductList(productListQueryParams);
 
     return (
         <AppLayout>
@@ -35,23 +35,35 @@ const ShopPage = () => {
                     Products
                 </h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10 ">
                     <Filters />
-                    <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8 lg:col-span-3">
-                        <>
-                            {
-                                productListResponse ?
-                                    productListResponse.data.map((product) => (
-                                        <ProductCard
-                                            key={`product-card-${product.slug}`}
-                                            product={product}
-                                        />
-                                    ))
+                    {
+                        !productListResponse ?
+                            // loading state
+                            <div className='lg:col-span-4 flex'><div className="w-full">asd</div></div>
+                            :
+                            (
+                                productListResponse.data.length === 0 ?
+
+                                    // empty state
+                                    <div className="mt-8 w-auto lg:col-span-3 flex w-full justify-center">
+                                        <div>sda</div>
+                                    </div>
+
                                     :
-                                    <div className='col-span-full'></div>
-                            }
-                        </>
-                    </div>
+                                    <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 md:col-span-9 lg:col-span-10">
+                                        {
+                                            productListResponse.data.map((product) => (
+                                                <ProductCard
+                                                    key={`product-card-${product.slug}`}
+                                                    product={product}
+                                                />
+                                            ))
+                                        }
+                                    </div>
+                            )
+                    }
+
                 </div>
             </section>
 

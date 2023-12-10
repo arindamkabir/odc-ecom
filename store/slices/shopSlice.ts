@@ -1,3 +1,4 @@
+import { DELIVERY_LOCATIONS } from "@/config/checkout";
 import { BoundedState, ShopState } from "@/types/State";
 import { toast } from "react-toastify";
 import { StateCreator } from "zustand";
@@ -8,12 +9,22 @@ const createShopState: StateCreator<
     [],
     ShopState
 > = (set, get) => ({
+    sizes: [],
+    colors: [],
+    categories: [],
     cart: [],
     cartOpen: false,
     mobileFiltersOpen: false,
     productListQueryParams: {
         page: 1,
-        search: ''
+        search: '',
+        perPage: 9,
+        sizes: [],
+        colors: []
+    },
+    selectedCheckoutDeliveryLocation: DELIVERY_LOCATIONS[0],
+    setFilters: (filters) => {
+        set(state => ({ sizes: filters.sizes, colors: filters.colors, categories: filters.categories }));
     },
     setCartOpen: (val) => {
         set(state => ({ cartOpen: val }));
@@ -76,6 +87,9 @@ const createShopState: StateCreator<
     setProductListQueryParams: (val) => {
         set(state => ({ productListQueryParams: val }));
     },
+    setSelectedCheckoutDeliveryLocation: (val) => {
+        set(state => ({ selectedCheckoutDeliveryLocation: val }))
+    }
 });
 
 

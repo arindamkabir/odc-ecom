@@ -165,7 +165,7 @@ export default function ProductPage({ product, relatedProducts, availableColors,
                 cartQuantity: cartItem.cartQuantity
             }
         }
-        if (!product.has_colors && !product.has_colors) {
+        if (!product.has_colors && !product.has_sizes) {
             const stock = product.stocks.at(0);
             if (!stock) return undefined;
             const cartItem = cart.find(item => item.stock.id === stock.id);

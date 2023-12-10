@@ -1,12 +1,15 @@
 import { CartProduct } from '@/types/Product'
 import React from 'react'
 import ProductQtyInput from '../ProductQtyInput'
+import useStore from '@/store/store'
 
 type CartDrawerProductProps = {
     product: CartProduct
 }
 
 const CartDrawerProduct = ({ product }: CartDrawerProductProps) => {
+    const removeFromCart = useStore(state => state.removeFromCart);
+
     return (
         <li className="flex py-6">
             <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -52,6 +55,7 @@ const CartDrawerProduct = ({ product }: CartDrawerProductProps) => {
                         <button
                             type="button"
                             className="font-medium text-black hover:text-black text-sm hover:underline hover:underline-offset-1 hover:underline-black"
+                            onClick={() => removeFromCart(product.id, product.stock.id)}
                         >
                             Remove
                         </button>

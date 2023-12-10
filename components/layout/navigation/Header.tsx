@@ -133,6 +133,7 @@ const navigation = {
 const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
     const setCartOpen = useStore(state => state.setCartOpen);
+    const cart = useStore(state => state.cart);
 
     return (
         <div>
@@ -287,14 +288,13 @@ const Header = () => {
                                 className=" p-2 rounded-md text-white lg:hidden"
                                 onClick={() => setMobileMenuOpen(true)}
                             >
-                                <span className="sr-only">Open menu</span>
                                 <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                             </button>
 
                             {/* Logo */}
                             <div className="ml-4 flex lg:ml-0">
                                 <Link href="/">
-                                    <img src="/logo-white.png" className='h-[5.75rem] w-auto' alt="" />
+                                    <img src="/logo-white.png" className='h-[4.5rem] w-auto' alt="" />
                                 </Link>
                             </div>
 
@@ -426,7 +426,7 @@ const Header = () => {
                                             className="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                                             aria-hidden="true"
                                         />
-                                        <span className="ml-2 text-sm font-medium text-white group-hover:text-gray-100">0</span>
+                                        <span className="ml-2 text-sm font-medium text-white group-hover:text-gray-100">{cart.length}</span>
                                     </button>
                                 </div>
                             </div>
