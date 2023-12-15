@@ -56,7 +56,7 @@ const CustomApp = ({ Component, pageProps }: AppProps) => {
         icon={false}
       />
       <QueryClientProvider client={queryClient}>
-        <main className={`${merriweather.className} min-h-screen`} data-theme="dark">
+        <main id="main" className={`${merriweather.className} min-h-screen overflow-y-auto`} data-theme="dark">
           <Component {...pageProps} />
         </main>
         <ReactQueryDevtools />

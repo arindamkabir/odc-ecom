@@ -56,7 +56,7 @@ const Filters = () => {
     const setProductListQueryParams = useStore(state => state.setProductListQueryParams);
 
     return (
-        <div className="hidden lg:block md:col-span-3 lg:col-span-2">
+        <div className="hidden lg:block lg:w-[20rem]">
             <Disclosure as="div" className="border-b border-gray-200 py-6">
                 {({ open }) => (
                     <>

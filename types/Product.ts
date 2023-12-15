@@ -34,7 +34,7 @@ export interface Product {
     updated_at: string;
     stocks: Stock[]; // Adjust type as per the stocks structure
     category: Category;
-    primary_image: {
+    primary_image?: {
         id: number;
         url: string;
         type: string;

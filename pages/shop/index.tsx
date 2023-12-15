@@ -1,3 +1,4 @@
+import React from 'react';
 import AppLayout from '@/components/layout/AppLayout'
 import Filters from '@/components/shop/Filters';
 import MobileFilters from '@/components/shop/MobileFilters';
@@ -6,12 +7,23 @@ import SortByMenu from '@/components/shop/SortByMenu';
 import { useGetProductList } from '@/hooks/queries/useGetProductList';
 import useStore from '@/store/store';
 import { FunnelIcon } from '@heroicons/react/24/solid';
-import React from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 const ShopPage = () => {
     const openMobileFilters = useStore(state => state.openMobileFilters);
     const productListQueryParams = useStore(state => state.productListQueryParams);
-    const { data: productListResponse, isPending } = useGetProductList(productListQueryParams);
+
+
+    const {
+        data: productListResponse,
+        error,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+        status
+    } = useGetProductList(productListQueryParams);
 
     return (
         <AppLayout>
@@ -35,34 +47,33 @@ const ShopPage = () => {
                     Products
                 </h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-10 ">
+                <div className="flex flex-col lg:flex-row gap-x-8 gap-y-10 ">
                     <Filters />
-                    {
-                        !productListResponse ?
-                            // loading state
-                            <div className='lg:col-span-4 flex'><div className="w-full">asd</div></div>
-                            :
-                            (
-                                productListResponse.data.length === 0 ?
 
-                                    // empty state
-                                    <div className="mt-8 w-auto lg:col-span-3 flex w-full justify-center">
-                                        <div>sda</div>
-                                    </div>
+                    <InfiniteScroll
+                        dataLength={productListResponse?.pages.reduce((acc, currentPage) => acc + currentPage.data.length, 0) ?? 0}
+                        next={fetchNextPage}
+                        hasMore={hasNextPage}
+                        loader={<div className='flex justify-center mt-6'><p className='text-xs text-center'>Loading more..</p></div>}
+                        endMessage={<div className='flex justify-center mt-6'><p className='text-xs text-center'>You have reached the end.</p></div>}
+                    // scrollableTarget={'id'}
+                    >
+                        <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 md:col-span-9 lg:col-span-10">
 
-                                    :
-                                    <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 md:col-span-9 lg:col-span-10">
-                                        {
-                                            productListResponse.data.map((product) => (
-                                                <ProductCard
-                                                    key={`product-card-${product.slug}`}
-                                                    product={product}
-                                                />
-                                            ))
-                                        }
-                                    </div>
-                            )
-                    }
+                            {productListResponse?.pages.map((group, i) => (
+                                <React.Fragment key={i}>
+                                    {group.data.map((product) => (
+                                        <ProductCard
+                                            key={`product-card-${product.slug}`}
+                                            product={product}
+                                        />
+                                    ))}
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    </InfiniteScroll>
+
+
 
                 </div>
             </section>
@@ -73,3 +84,11 @@ const ShopPage = () => {
 }
 
 export default ShopPage;
+
+
+
+
+
+
+
+
