@@ -70,14 +70,14 @@ const CartPage = () => {
                     Review Your Order
                 </h2>
                 <form className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
-                    <section className="lg:col-span-7">
+                    <div className="lg:col-span-7">
                         {cart.length > 0 ?
-                            <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
+                            <div className="divide-y divide-gray-200 border-b border-t border-gray-200">
 
                                 {cart.map((product) => (
-                                    <Product key={`checkout-product-${product.slug}`} product={product} />
+                                    <Product key={`checkout-product-${product.slug}-${product.stock.id}`} product={product} />
                                 ))}
-                            </ul>
+                            </div>
                             :
                             <div className='pt-20 flex flex-col justify-center items-center space-y-8 font-medium text-gray-900'>
                                 <span>
@@ -88,10 +88,10 @@ const CartPage = () => {
                                 </div>
                             </div>
                         }
-                    </section>
+                    </div>
 
                     {/* Order summary */}
-                    <section
+                    <div
                         className="mt-16 lg:border lg:border-gray-200 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
                     >
 
@@ -190,7 +190,7 @@ const CartPage = () => {
                                 Checkout
                             </PrimaryButton>
                         </div>
-                    </section>
+                    </div>
                 </form>
             </main>
         </div>

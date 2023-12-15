@@ -8,5 +8,6 @@ const axios = Axios.create({
 })
 
 axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
 
 export default axios;

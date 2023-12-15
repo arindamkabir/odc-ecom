@@ -13,7 +13,7 @@ const Product = ({ product }: CartProductProps) => {
     const removeFromCart = useStore(state => state.removeFromCart);
 
     return (
-        <li key={product.id} className="flex py-6 sm:py-10">
+        <div key={product.id} className="flex py-6 sm:py-10">
             <div className="flex-shrink-0">
                 <img
                     src={product.primary_image.full_url}
@@ -31,7 +31,7 @@ const Product = ({ product }: CartProductProps) => {
                             </h3>
                         </div>
                         <div className="mt-1 flex text-sm">
-                            {product.stock.color ? <p className="text-gray-500 capitalize">{product.stock.color.name}</p> : null}
+                            {product.stock.color ? <p className="text-gray-500 capitadivze">{product.stock.color.name}</p> : null}
                             {product.stock.size ? (
                                 <p className={`${product.stock.color ? `ml-4 pl-4 border-l border-gray-200` : ''} text-gray-500 uppercase`}>{product.stock.size.name}</p>
                             ) : null}
@@ -63,7 +63,7 @@ const Product = ({ product }: CartProductProps) => {
                     <span>{product.cartQuantity <= product.stock.quantity ? 'In stock' : `Out of stock`}</span>
                 </p>
             </div>
-        </li>
+        </div>
     )
 }
 
